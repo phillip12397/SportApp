@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#121212">
+
+    <Button
+        android:id="@+id/zurück"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="zurück"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.089"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.039" />
+
+    <Button
+        android:id="@+id/weiter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="weiter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.91"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.039" />
+
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_width="353dp"
+        android:layout_height="351dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.781" />
+
+    <TextView
+        android:id="@+id/uebungsName"
+        android:layout_width="305dp"
+        android:layout_height="65dp"
+        android:gravity="center_vertical|right"
+        android:text="Übung"
+        android:textAlignment="center"
+        android:textColor="#EAEAEA"
+        android:textSize="26sp"
+        app:layout_constraintBottom_toTopOf="@+id/videoView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.504" />
+
+    <Chronometer
+        android:id="@+id/timer"
+        android:layout_width="135dp"
+        android:layout_height="50dp"
+        android:gravity="center_vertical|right"
+        android:textAlignment="center"
+        android:textColor="#EAEAEA"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/videoView"
+        app:layout_constraintEnd_toStartOf="@+id/toggleButton"
+        app:layout_constraintHorizontal_bias="0.684"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/uebungsName"
+        app:layout_constraintVertical_bias="0.52" />
+
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="120dp"
+        android:layout_height="55dp"
+        android:background="#717171"
+        android:checked="false"
+        android:text="Start"
+        android:textColor="#FFFFFF"
+        android:textOff="Start"
+        android:textOn="Stop"
+        app:layout_constraintBottom_toTopOf="@+id/videoView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.767"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/uebungsName"
+        app:layout_constraintVertical_bias="0.477" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

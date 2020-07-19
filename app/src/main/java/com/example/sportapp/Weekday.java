@@ -1,9 +1,10 @@
 package com.example.sportapp;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -25,8 +26,8 @@ public class Weekday extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Weekday_Adapter adapter;
     private List<Weekday_Data> listWeekday;
+    private ImageView arrowBack;
 
-    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +55,17 @@ public class Weekday extends AppCompatActivity {
                 Intent intent = new Intent(Weekday.this, Choosed_Workout.class);
                 startActivity(intent);
                 Animatoo.animateSlideLeft(Weekday.this);
+            }
+        });
+
+        arrowBack = (ImageView) findViewById(R.id.arrow_back);
+
+        arrowBack.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(Weekday.this, Workouts.class);
+                startActivity(intent);
+                Animatoo.animateSlideRight(Weekday.this);
             }
         });
     }

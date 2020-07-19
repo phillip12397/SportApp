@@ -36,24 +36,7 @@ public class Workouts extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setCustomView(R.layout.actionbar_layout);
-
-//        final ImageView starBorder = (ImageView)  findViewById(R.id.star_border);
-//        final ImageView star = (ImageView) findViewById(R.id.star);
-//
-//        starBorder.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                starBorder.setVisibility(View.GONE);
-//                star.setVisibility(View.VISIBLE);
-//            }
-//        });
-//
-//        star.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                starBorder.setVisibility(View.VISIBLE);
-//                star.setVisibility(View.GONE);
-//            }
-//        });
+        getSupportActionBar().setCustomView(R.layout.first_action_bar);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view_workout);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -72,28 +55,6 @@ public class Workouts extends AppCompatActivity {
                 Animatoo.animateSlideLeft(Workouts.this);
             }
         });
-
-        imageStarBorder  = (ImageView) findViewById(R.id.star_border);
-
-       // System.out.println(imageStarBorder.getVisibility());
-        /*imageStarBorder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                imageStarBorder.setVisibility(View.INVISIBLE);
-                imageStar.setVisibility(View.VISIBLE);
-            }
-        });
-*/
-        imageStar  = (ImageView) findViewById(R.id.star);
-        //System.out.println(imageStar.getVisibility());
-/*
-        imageStar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                imageStar.setVisibility(View.INVISIBLE);
-                imageStarBorder.setVisibility(View.VISIBLE);
-            }
-        });*/
     }
 
     private void fillData() {

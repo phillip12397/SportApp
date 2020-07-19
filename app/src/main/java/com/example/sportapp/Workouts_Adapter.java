@@ -3,7 +3,9 @@ package com.example.sportapp;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,9 +56,33 @@ public class Workouts_Adapter extends RecyclerView.Adapter<Workouts_Adapter.Work
 
         private TextView dauer;
         private TextView workout;
+        private ImageView starBorder;
+        private ImageView star;
 
         public WorkoutHolder(@NonNull View itemView) {
             super(itemView);
+
+
+            starBorder = (ImageView) itemView.findViewById(R.id.star_border);
+            star = (ImageView) itemView.findViewById(R.id.star);
+            dauer = (TextView) itemView.findViewById(R.id.dauer);
+            workout = (TextView) itemView.findViewById(R.id.workout);
+
+            starBorder.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    starBorder.setVisibility(View.GONE);
+                    star.setVisibility(View.VISIBLE);
+                }
+            });
+
+            star.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    starBorder.setVisibility(View.VISIBLE);
+                    star.setVisibility(View.GONE);
+                }
+            });
 
             dauer = (TextView) itemView.findViewById(R.id.dauer);
             workout = (TextView) itemView.findViewById(R.id.workout);

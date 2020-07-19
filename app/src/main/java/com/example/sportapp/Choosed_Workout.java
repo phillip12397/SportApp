@@ -1,6 +1,7 @@
 package com.example.sportapp;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -11,12 +12,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 import android.widget.VideoView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 
 public class Choosed_Workout extends AppCompatActivity {
 
@@ -31,6 +36,7 @@ public class Choosed_Workout extends AppCompatActivity {
     private long pauseOffset;
     private Chronometer chronometer;
     private int currentExerciseTime;
+    private ImageView arrowBack;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -42,6 +48,17 @@ public class Choosed_Workout extends AppCompatActivity {
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar_layout);
+
+        arrowBack = (ImageView) findViewById(R.id.arrow_back);
+
+        arrowBack.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(Choosed_Workout.this, Weekday.class);
+                startActivity(intent);
+                Animatoo.animateSlideRight(Choosed_Workout.this);
+            }
+        });
 
         name = (TextView) findViewById(R.id.uebungsName);
         videoView = (VideoView) findViewById(R.id.videoView);

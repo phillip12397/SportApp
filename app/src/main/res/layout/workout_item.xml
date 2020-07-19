@@ -42,7 +42,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:src="@drawable/ic_star_border_white"
-            android:visibility="visible" />
+            android:visibility="visible"
+            android:clickable="true"
+            android:focusable="true"/>
 
         <ImageView
             android:id="@+id/star"
@@ -50,7 +52,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:src="@drawable/ic_star_white"
-            android:visibility="invisible" />
+            android:visibility="gone"
+            android:clickable="true"
+            android:focusable="true"/>
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

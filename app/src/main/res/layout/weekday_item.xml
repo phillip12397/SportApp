@@ -17,7 +17,7 @@
         android:padding="8dp">
 
         <TextView
-            android:id="@+id/weekday"
+            android:id="@+id/muscle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -28,10 +28,10 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/muscle"
+            android:id="@+id/weekday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/weekday"
+            android:layout_below="@+id/muscle"
             android:text="Bizeps und Rücken"
             android:textColor="#FFF" />
     </RelativeLayout>

@@ -5,7 +5,6 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,9 +16,7 @@ import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import java.util.ArrayList;
 import java.util.List;
 
-import data.Excercise;
 import data.Workout;
-import data.WorkoutCollection;
 
 public class Weekday extends AppCompatActivity {
 
@@ -28,10 +25,19 @@ public class Weekday extends AppCompatActivity {
     private List<Weekday_Data> listWeekday;
     private ImageView arrowBack;
 
+    private String idWorkout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.show_weekdays);
+
+
+        Bundle extra = getIntent().getExtras();
+
+        if (extra != null) {
+            idWorkout = extra.getString("Id");
+        }
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -47,12 +53,14 @@ public class Weekday extends AppCompatActivity {
 
         recyclerView.setAdapter(adapter);
 
-        fillData();
+        loadData();
 
         adapter.setOnItemClickListener(new Weekday_Adapter.OnWeekdayListener() {
             @Override
             public void onWeekdayClick(int position) {
                 Intent intent = new Intent(Weekday.this, Choosed_Workout.class);
+                intent.putExtra("Id", listWeekday.get(position).getId());
+                intent.putExtra("IdWorkout", idWorkout);
                 startActivity(intent);
                 Animatoo.animateSlideLeft(Weekday.this);
             }
@@ -60,9 +68,9 @@ public class Weekday extends AppCompatActivity {
 
         arrowBack = (ImageView) findViewById(R.id.arrow_back);
 
-        arrowBack.setOnClickListener(new View.OnClickListener(){
+        arrowBack.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 Intent intent = new Intent(Weekday.this, Workouts.class);
                 startActivity(intent);
                 Animatoo.animateSlideRight(Weekday.this);
@@ -70,43 +78,24 @@ public class Weekday extends AppCompatActivity {
         });
     }
 
-    private void fillData() {
+    private void loadData() {
 
-        Excercise pistolSquadLeft = new Excercise("10 Pistolsquads left side", 40);
-        Excercise pistolSquadRight = new Excercise("10 Pistolsquads right side", 40);
-        Excercise squad = new Excercise("25 Squads", 45);
-        Excercise pushUp = new Excercise("15 Pushups", 30);
-        Excercise kneePushUp = new Excercise("30 Kneepushups", 60);
-        Excercise bycicle = new Excercise("Bycicle", 45);
-        Excercise rep = new Excercise("15 Reps", 35);
-        Excercise jumpingJack = new Excercise("Jumping Jack", 60);
-        Excercise highSitUp = new Excercise("15 High SitUps", 45);
-        Excercise highPushUp = new Excercise("10 High Pushups", 45);
-        Excercise plank = new Excercise("Plank", 45);
-        Excercise buttkicks = new Excercise("Buttkicks", 35);
-        Excercise topPushUp = new Excercise("10 Top Pushups", 30);
-        Excercise karateKid = new Excercise("Karate Kid", 40);
-        Excercise weirdoPushUp = new Excercise("Weirdo Pushup", 40);
-        Excercise plankKick = new Excercise("Plankkicks", 45);
-
-        Workout monday = new Workout("Upper Body", "Monday", pushUp, rep, highPushUp, karateKid, weirdoPushUp, kneePushUp, plank);
-        Workout tuesday = new Workout("Abs", "Tuesday", highSitUp, bycicle, plank, karateKid, jumpingJack, buttkicks);
-        Workout wednesday = new Workout("Whole Body", "Wednesday", highSitUp, bycicle, plank, karateKid, jumpingJack, buttkicks);
-        Workout thursday = new Workout("Legs", "Thursday", highSitUp, bycicle, plank, karateKid, jumpingJack, buttkicks);
-        Workout friday = new Workout("Upper Body", "Friday", highSitUp, bycicle, plank, karateKid, jumpingJack, buttkicks);
-        Workout saturday = new Workout("Abs", "Saturday", highSitUp, bycicle, plank, karateKid, jumpingJack, buttkicks);
-        Workout sunday = new Workout("Whole Body", "Sunday", highSitUp, bycicle, plank, karateKid, jumpingJack, buttkicks);
-
-        WorkoutCollection strengthBuilding = new WorkoutCollection("Strength Building", monday, tuesday, wednesday, thursday, friday, saturday, sunday);
-
-
-        listWeekday.add(new Weekday_Data("Biceps and Back", "Monday"));
-        listWeekday.add(new Weekday_Data("Triceps", "Tuesday"));
-        listWeekday.add(new Weekday_Data("Rest", "Wednesday"));
-        listWeekday.add(new Weekday_Data("Abs", "Thursday"));
-        listWeekday.add(new Weekday_Data("Chest", "Friday"));
-        listWeekday.add(new Weekday_Data("Rest", "Saturday"));
-        listWeekday.add(new Weekday_Data("Rest", "Sunday"));
-        adapter.notifyDataSetChanged();
+        switch (idWorkout){
+            case "0" :  List<Workout> workout = Workouts.strengthBuilding.getAllWorkouts();
+                listWeekday.add(new Weekday_Data("0", workout.get(0).getMuscles(), workout.get(0).getDay()));
+                listWeekday.add(new Weekday_Data("1", workout.get(1).getMuscles(), workout.get(1).getDay()));
+                listWeekday.add(new Weekday_Data("2", workout.get(2).getMuscles(), workout.get(2).getDay()));
+                listWeekday.add(new Weekday_Data("3", workout.get(3).getMuscles(), workout.get(3).getDay()));
+                listWeekday.add(new Weekday_Data("4", workout.get(4).getMuscles(), workout.get(4).getDay()));
+                listWeekday.add(new Weekday_Data("5", workout.get(5).getMuscles(), workout.get(5).getDay()));
+                listWeekday.add(new Weekday_Data("6", workout.get(6).getMuscles(), workout.get(6).getDay()));
+                adapter.notifyDataSetChanged();
+                break;
+            case "1" : break;
+            case "2" : break;
+            case "3" : break;
+            case "4" : break;
+            default: break;
+        }
     }
 }

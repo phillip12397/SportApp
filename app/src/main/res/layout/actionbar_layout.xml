@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="5dp"
         android:src="@drawable/ic_arrow_back_white"
         android:clickable="true"
         android:focusable="true"/>

@@ -12,9 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.HashMap;
 import java.util.List;
 
-import data.Workout;
-
-
 public class Workouts_Adapter extends RecyclerView.Adapter<Workouts_Adapter.WorkoutHolder> {
 
     private List<Workout_Data> mData;
@@ -102,9 +99,6 @@ public class Workouts_Adapter extends RecyclerView.Adapter<Workouts_Adapter.Work
                     Workouts.save(workout.getText().toString().trim(), checked);
                 }
             });
-
-            dauer = (TextView) itemView.findViewById(R.id.dauer);
-            workout = (TextView) itemView.findViewById(R.id.workout);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

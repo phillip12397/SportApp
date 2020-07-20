@@ -79,7 +79,6 @@ public class Weekday extends AppCompatActivity {
     }
 
     private void loadData() {
-
         switch (idWorkout){
             case "0" :  List<Workout> workout = Workouts.strengthBuilding.getAllWorkouts();
                 listWeekday.add(new Weekday_Data("0", workout.get(0).getMuscles(), workout.get(0).getDay()));

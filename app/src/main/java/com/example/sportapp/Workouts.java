@@ -5,16 +5,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import data.Excercise;
@@ -26,6 +32,14 @@ public class Workouts extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Workouts_Adapter adapter;
     private List<Workout_Data> listWorkout;
+
+    private static String strengthB;/* = "Strength Building;false";*/
+    private static String lowerBody;/* = "Lower Body;false";*/
+    private static String bicepsAndBack;/* = "Biceps and Back;false";*/
+    private static String legs;/* = "Legs;false";*/
+    private static String fullBody; /* = "Full Body;false";*/
+
+    private static Workouts instance;
 
     public static WorkoutCollection strengthBuilding = null;
 
@@ -49,6 +63,7 @@ public class Workouts extends AppCompatActivity {
 
         fillData();
         loadData();
+
         adapter.setOnItemClickListener(new Workouts_Adapter.OnWorkoutListener() {
             @Override
             public void onWorkoutClick(int position) {
@@ -58,21 +73,19 @@ public class Workouts extends AppCompatActivity {
                 Animatoo.animateSlideLeft(Workouts.this);
             }
         });
+        instance = this;
     }
 
     private void loadData() {
-
-        listWorkout.add(new Workout_Data("0","1 Woche", "Strength Building"));
-        listWorkout.add(new Workout_Data("1","4 Wochen", "Lower Body"));
-        listWorkout.add(new Workout_Data("2","2 Wochen", "Biceps and Back"));
-        listWorkout.add(new Workout_Data("3","1 Wochen", "Legs"));
-        listWorkout.add(new Workout_Data("4","4 Wochen", "Full Body "));
+        listWorkout.add(new Workout_Data("0", "1 Woche", "Strength Building"));
+        listWorkout.add(new Workout_Data("1", "4 Wochen", "Lower Body"));
+        listWorkout.add(new Workout_Data("2", "2 Wochen", "Biceps and Back"));
+        listWorkout.add(new Workout_Data("3", "1 Wochen", "Legs"));
+        listWorkout.add(new Workout_Data("4", "4 Wochen", "Full Body "));
         adapter.notifyDataSetChanged();
-
     }
 
     private void fillData() {
-
         Excercise pistolSquadLeft = new Excercise("10 Pistolsquads left side", 40, "android.resource://" + getPackageName() + "/" + R.raw.leftpistolsquad);
         Excercise pistolSquadRight = new Excercise("10 Pistolsquads right side", 40, "android.resource://" + getPackageName() + "/" + R.raw.rightpistolsquad);
         Excercise squad = new Excercise("25 Squads", 45, "android.resource://" + getPackageName() + "/" + R.raw.squad);
@@ -90,18 +103,104 @@ public class Workouts extends AppCompatActivity {
         Excercise weirdoPushUp = new Excercise("Weirdo Pushup", 40, "android.resource://" + getPackageName() + "/" + R.raw.weirdopushup);
         Excercise plankKick = new Excercise("Plankkicks", 45, "android.resource://" + getPackageName() + "/" + R.raw.plankkick);
 
-        Workout monday = new Workout("Upper Body", "Monday", pushUp, rep, highPushUp, karateKid, weirdoPushUp, kneePushUp, plank);
-        Workout tuesday = new Workout("Abs", "Tuesday", highSitUp, bycicle, plank, karateKid, jumpingJack, buttkicks);
+        Workout monday = new Workout("Upper Body", "Monday", pushUp, rep, highPushUp, topPushUp, karateKid, weirdoPushUp, kneePushUp);
+        Workout tuesday = new Workout("Abs", "Tuesday", highSitUp, bycicle, plank, karateKid, plankKick);
         Workout wednesday = new Workout("Whole Body", "Wednesday", highSitUp, bycicle, plank, karateKid, jumpingJack, buttkicks);
-        Workout thursday = new Workout("Legs", "Thursday", highSitUp, bycicle, plank, karateKid, jumpingJack, buttkicks);
-        Workout friday = new Workout("Upper Body", "Friday", highSitUp, bycicle, plank, karateKid, jumpingJack, buttkicks);
-        Workout saturday = new Workout("Abs", "Saturday", highSitUp, bycicle, plank, karateKid, jumpingJack, buttkicks);
-        Workout sunday = new Workout("Whole Body", "Sunday", highSitUp, bycicle, plank, karateKid, jumpingJack, buttkicks);
+        Workout thursday = new Workout("Legs", "Thursday", jumpingJack, buttkicks, squad, pistolSquadLeft, pistolSquadRight);
+        Workout friday = new Workout("Upper Body", "Friday", pushUp, rep, highPushUp, topPushUp, karateKid, weirdoPushUp, kneePushUp);
+        Workout saturday = new Workout("Abs", "Saturday", highSitUp, bycicle, plank, karateKid, plankKick);
+        Workout sunday = new Workout("Whole Body", "Sunday", jumpingJack, buttkicks, pushUp, rep, highPushUp, topPushUp);
 
         strengthBuilding = new WorkoutCollection("Strength Building", monday, tuesday, wednesday, thursday, friday, saturday, sunday);
-
     }
 
+    public static void save(String workout, String star) {
+/*
+       switch (workout){
+           case "Strength Building": strengthB = workout +";"+ star;break;
+           case "Lower Body" : lowerBody = workout +";"+ star;break;
+           case "Biceps and Back" : bicepsAndBack = workout +";"+ star;break;
+           case "Legs" : legs = workout +";"+ star;break;
+           case "Full Body" : fullBody = workout +";"+ star;break;
+           default:break;
+       }
+*/
+        String txt = workout + ";" + star;
+        HashMap<String, String> loadedWorkout = load();
+        String oldContent = "";
+        String oldString = "";
+        if (loadedWorkout.containsKey(workout)) {
+            if (star.equals("true")) oldString = workout + ";false";
+            if (star.equals("false")) oldString = workout + ";true";
+        }
+
+        try {
+            OutputStreamWriter osw = new OutputStreamWriter(instance.getApplicationContext().openFileOutput("workout.txt", Context.MODE_PRIVATE));
+            if(!oldString.equals("")) {
+                InputStreamReader isr = new InputStreamReader(instance.getApplication().openFileInput("workout.txt"));
+                BufferedReader br = new BufferedReader(isr);
+                String line;
+                while ((line = br.readLine()) != null) {
+                    oldContent = oldContent + line + System.lineSeparator();
+                }
+
+                String newContent = oldContent.replaceAll(oldString, workout + ";star");
+
+                osw.write(newContent);
+                osw.close();
+            } else {
+                osw.write(workout + ";" + star);
+                osw.close();
+            }
+            Log.i("SportApp", txt);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static HashMap<String, String> load() {
+        HashMap<String, String> loadWorkout = new HashMap<>();
+
+        try {
+            InputStreamReader isr = new InputStreamReader(instance.getApplication().openFileInput("workout.txt"));
+            BufferedReader br = new BufferedReader(isr);
+            String text;
+
+            while ((text = br.readLine()) != null) {
+                Log.i("loadSportApp", text);
+                String[] workout = text.split(";");
+                loadWorkout.put(workout[0].trim(), workout[1].trim());
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return loadWorkout;
+    }
+/*
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        String path = getApplicationContext().getFilesDir().getAbsolutePath();
+        try {
+            File file = new File(path +"/workout.txt");
+            if(file.exists()) file.delete();
+            OutputStreamWriter osw = new OutputStreamWriter(instance.getApplicationContext().openFileOutput("workout.txt", Context.MODE_PRIVATE));
+            osw.write(strengthB);
+            osw.write(lowerBody);
+            osw.write(bicepsAndBack);
+            osw.write(legs);
+            osw.write(fullBody);
+            osw.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+*/
     /*
     private void readData() {
 

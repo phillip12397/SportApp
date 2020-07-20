@@ -27,6 +27,7 @@ import data.Workout;
 
 public class Choosed_Workout extends AppCompatActivity {
 
+    private  TextView anzahl;
     private TextView name;
     private VideoView videoView;
     private Button zurueck;
@@ -41,7 +42,6 @@ public class Choosed_Workout extends AppCompatActivity {
     private List<Workout> workout;
     private int zaehler;
 
-    private String workoutSize;
     private String idWeekday;
     private String idAsString;
     private int idAsInt;
@@ -55,7 +55,6 @@ public class Choosed_Workout extends AppCompatActivity {
         if (extra != null){
             idAsString = extra.getString("Id");
             idWeekday = extra.getString("IdWorkout");
-            workoutSize = extra.getString("WorkoutSize");
         }
 
         idAsInt = Integer.parseInt(idAsString);
@@ -77,6 +76,7 @@ public class Choosed_Workout extends AppCompatActivity {
             }
         });
 
+        anzahl = (TextView) findViewById(R.id.anzahl);
         name = (TextView) findViewById(R.id.uebungsName);
         videoView = (VideoView) findViewById(R.id.videoView);
         zurueck = (Button) findViewById(R.id.zurück);
@@ -156,10 +156,12 @@ public class Choosed_Workout extends AppCompatActivity {
 
     //----------------------------------------------------------------------------------------
     // Hier wird die erste Uebung geladen
+
     private void loadFirstExcercise() {
         name.setText(workout.get(idAsInt).getExcercise(0).getTitle());
         //chronometer.setCountDown(workout.get(0).getExcercise(0).getSeconds());
         onResume(workout.get(idAsInt).getExcercise(0).getVideoPath());
+        anzahl.setText(zaehler + 1 + "/" + workout.get(idAsInt).getSize());
     }
 
     //----------------------------------------------------------------------------------------
@@ -167,15 +169,16 @@ public class Choosed_Workout extends AppCompatActivity {
 
     private void forward() {
         zaehler++;
-
         name.setText(workout.get(idAsInt).getExcercise(zaehler).getTitle());
         onResume(workout.get(idAsInt).getExcercise(zaehler).getVideoPath());
+        anzahl.setText(zaehler + 1 +"/" + workout.get(idAsInt).getSize());
     }
 
     private void back(){
         zaehler--;
         name.setText(workout.get(idAsInt).getExcercise(zaehler).getTitle());
         onResume(workout.get(idAsInt).getExcercise(zaehler).getVideoPath());
+        anzahl.setText(zaehler + 1 +"/" + workout.get(idAsInt).getSize());
     }
 
     //----------------------------------------------------------------------------------------

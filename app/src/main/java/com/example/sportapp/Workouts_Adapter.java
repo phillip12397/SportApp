@@ -9,7 +9,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.HashMap;
 import java.util.List;
+
+import data.Workout;
+
 
 public class Workouts_Adapter extends RecyclerView.Adapter<Workouts_Adapter.WorkoutHolder> {
 
@@ -30,9 +34,18 @@ public class Workouts_Adapter extends RecyclerView.Adapter<Workouts_Adapter.Work
 
     @Override
     public void onBindViewHolder(@NonNull WorkoutHolder holder, int position) {
+        HashMap<String, String> loadedWorkouts = Workouts.load();
         Workout_Data currentWorkout = mData.get(position);
         holder.workout.setText(currentWorkout.getWorkout());
         holder.dauer.setText(currentWorkout.getDauer());
+
+        if(loadedWorkouts.containsKey(holder.workout.getText().toString())){
+            String checked = loadedWorkouts.get(holder.workout.getText().toString());
+            if(checked.equals("true")) {
+                holder.star.setVisibility(View.VISIBLE);
+                holder.starBorder.setVisibility(View.GONE);
+            }
+        }
     }
 
     public interface OnWorkoutListener {
@@ -58,9 +71,10 @@ public class Workouts_Adapter extends RecyclerView.Adapter<Workouts_Adapter.Work
         private ImageView starBorder;
         private ImageView star;
 
-        public WorkoutHolder(@NonNull View itemView) {
-            super(itemView);
+        private String checked;
 
+        public WorkoutHolder(@NonNull final View itemView) {
+            super(itemView);
 
             starBorder = (ImageView) itemView.findViewById(R.id.star_border);
             star = (ImageView) itemView.findViewById(R.id.star);
@@ -72,6 +86,9 @@ public class Workouts_Adapter extends RecyclerView.Adapter<Workouts_Adapter.Work
                 public void onClick(View v){
                     starBorder.setVisibility(View.GONE);
                     star.setVisibility(View.VISIBLE);
+
+                    checked = "true";
+                    Workouts.save(workout.getText().toString().trim(), checked);
                 }
             });
 
@@ -80,6 +97,9 @@ public class Workouts_Adapter extends RecyclerView.Adapter<Workouts_Adapter.Work
                 public void onClick(View v){
                     starBorder.setVisibility(View.VISIBLE);
                     star.setVisibility(View.GONE);
+
+                    checked = "false";
+                    Workouts.save(workout.getText().toString().trim(), checked);
                 }
             });
 
